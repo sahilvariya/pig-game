@@ -12,15 +12,28 @@ const rollDiceBtn = document.querySelector('.btn--roll');
 const holdScoreBtn = document.querySelector('.btn--hold');
 const currentScore0El = document.querySelector('#current--0');
 const currentScore1El = document.querySelector('#current--1');
-// starting condition
 
-score0Ele.textContent = 0;
-score1Ele.textContent = 0;
-diceImgEle.classList.add('hidden');
-let scores = [0, 1];
-let currentScore = 0;
-let activePlayer = 0;
-let playing = true;
+let scores, currentScore, activePlayer, playing;
+// starting condition
+const init = function () {
+  scores = [0, 1];
+  currentScore = 0;
+  activePlayer = 0;
+  playing = true;
+
+  score0Ele.textContent = 0;
+  score1Ele.textContent = 0;
+  currentScore0El.textContent = 0;
+  currentScore1El.textContent = 0;
+
+  diceImgEle.classList.add('hidden');
+  player0El.classList.remove('player--winner');
+  player1El.classList.remove('player--winner');
+  player0El.classList.add('player--active');
+  player1El.classList.remove('player--active');
+};
+
+init();
 
 // switch player function
 const switchPlayer = function () {
@@ -37,7 +50,6 @@ rollDiceBtn.addEventListener('click', function () {
   if (playing) {
     //step 1 Generate the random number between 1-6
     const diceNumber = Math.trunc(Math.random() * 6 + 1);
-    console.log(diceNumber);
     // step 2 Display the generated number of dice
     diceImgEle.classList.remove('hidden');
     diceImgEle.src = `dice-${diceNumber}.png`;
@@ -65,7 +77,7 @@ holdScoreBtn.addEventListener('click', function () {
     document.getElementById(`score--${activePlayer}`).textContent =
       scores[activePlayer];
 
-    if (scores[activePlayer] >= 20) {
+    if (scores[activePlayer] >= 100) {
       playing = false;
       diceImgEle.classList.add('hidden');
       document
@@ -81,6 +93,4 @@ holdScoreBtn.addEventListener('click', function () {
   //check if the score is >= 100 then it is winner
   // switch to other player
 });
-newGameBtn.addEventListener('click', function () {
-  location.reload();
-});
+newGameBtn.addEventListener('click', init);
